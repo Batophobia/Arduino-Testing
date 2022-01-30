@@ -2,10 +2,10 @@
 #include <FastLED.h>
 
 #define DATA_PIN    11
-#define NUM_LEDS    10
+#define NUM_LEDS    9
 #define BRIGHTNESS  255
 #define LED_TYPE    WS2811
-#define COLOR_ORDER GRB
+#define COLOR_ORDER RGB
 CRGB leds[NUM_LEDS];
 
 //MIDI_CREATE_DEFAULT_INSTANCE();
@@ -24,23 +24,15 @@ void handleNoteOff(byte channel, byte pitch, byte velocity) {
 
 void resetLEDS(){
     for(int i = 0; i < NUM_LEDS; i++) {
-      leds[i] = CRGB::Black;
+      leds[i] = CHSV(0,0,0);
       FastLED.show();
    }
 }
 
-void colorLEDs(){
+void colorLEDs(int clr){
     for(int i = 0; i < NUM_LEDS; i++) {
-      if(1%3 == 0) {
-        leds[i] = CRGB::Red;
-        FastLED.show();
-      } else if(1%3 == 1){
-        leds[i] = CRGB::Green;
-        FastLED.show();
-      } else {
-        leds[i] = CRGB::Blue;
-        FastLED.show();
-      }
+      leds[i] = CHSV(clr,255,255);
+      FastLED.show();
    }
 }
 
@@ -48,9 +40,8 @@ void colorLEDs(){
 void setup() {
     delay( 3000 ); // power-up safety delay
     FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
-    //FastLED.setBrightness(  BRIGHTNESS );
-    //resetLEDS();
-    colorLEDs();
+    resetLEDS();
+    delay(3000);
     
     //MIDI.setHandleNoteOn(handleNoteOn);  // Put only the name of the function
     //MIDI.setHandleNoteOff(handleNoteOff);
@@ -59,4 +50,8 @@ void setup() {
 
 void loop() {
     //MIDI.read();
+    for(int clr = 0; clr < 256; clr++){
+      colorLEDs(clr);
+      delay(500);
+    }
 }
