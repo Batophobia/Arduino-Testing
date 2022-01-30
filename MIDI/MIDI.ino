@@ -40,8 +40,6 @@ void colorLEDs(int clr){
 void setup() {
     delay( 3000 ); // power-up safety delay
     FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
-    resetLEDS();
-    delay(3000);
     
     //MIDI.setHandleNoteOn(handleNoteOn);  // Put only the name of the function
     //MIDI.setHandleNoteOff(handleNoteOff);
@@ -50,8 +48,8 @@ void setup() {
 
 void loop() {
     //MIDI.read();
-    for(int clr = 0; clr < 256; clr++){
-      colorLEDs(clr);
-      delay(500);
-    }
+    colorLEDs(255);
+    delay(500);
+    resetLEDS();
+    delay(500);
 }
